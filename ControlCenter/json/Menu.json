@@ -1,0 +1,32 @@
+{
+    "buttons": [
+        {
+            "link": "1",
+            "icon": "Themes/ControlCenter/img/ico/icon_home.png"
+        },
+        {
+            "link": "5",
+            "icon": "Themes/ControlCenter/img/ico/icon_light.png"
+        },
+        {
+            "link": "4",
+            "icon": "Themes/ControlCenter/img/ico/icon_thermometre.png"
+        },
+        {
+            "link": "7",
+            "icon": "montheme/img/icon_alarme.png"
+        },
+        {
+            "link": "11",
+            "icon": "montheme/img/icon_cast.png"
+        },
+        {
+            "link": "9",
+            "icon": "montheme/img/icon_plante.png"
+        },
+        {
+            "link": "10",
+            "icon": "montheme/img/icon_consomation.png"
+        }
+    ]
+}

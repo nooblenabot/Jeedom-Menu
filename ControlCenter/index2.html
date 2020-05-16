@@ -1,0 +1,86 @@
+<!-- 
+    @noodom / Menu F$B33 : ajout de la gestion des boutons par fichier JSon 
+    - reprise du menu FSB33 simplifié par @salvialf en ajoutant la gestion des boutons par un paramétrage JSon
+
+    - il n'y a plus besoin de modifier le code : seul le fichier perso.json est à adapter à son menu
+    - pour valider que le fichier perso.json est correct :
+        - copier son contenu ici : https://jsonlint.com/
+        - cliquer sur 'Validate JSON'
+        - le résultat sous Result doit être vert avec le message 'Valid JSON'
+-->
+
+<!-- <link href="montheme/css/perso.css" rel="stylesheet" type="text/css"> -->
+
+<div class="menu_top">
+</div>
+
+<script>
+    $(document).ready(function () {
+        let menuTop = $('.menu_top');
+        menuTop.append('Chargement du menu..');
+
+        $.getJSON('montheme/json/perso.json' + '?v=' + (new Date()).getTime(), function (data) {
+            let buttons = data.buttons.map(function (button) {
+                return '<a id="' + button.link + '" onClick="gotoPlan(this.id)">'
+                        + '<li class="monmenu">'
+                            + '<div class="imagette"><img src="' + button.icon + '" height=50px width=50px></div></br>'
+                        + '</li>'
+                    + '</a>';
+            });
+
+            menuTop.empty();
+
+            if (buttons.length) {
+                let listButtons = buttons.join(' ');
+                let menuList = $('<ul class="monmenu" />').html(listButtons);
+                menuTop.append(menuList);
+            }
+
+            let planID = '#' + (location.search.split('plan_id' + '=')[1] || '').split('&')[0];
+            $(planID + ' li').addClass('selected'); //<!-- selected = classe CSS sur élément actif -->
+        })
+    });
+
+    function gotoPlan(planID) {
+        planHeader_id = planID;
+        displayPlan();
+    }
+</script>
+<!--
+Menu
+- Copiez tous les repertoires dans montheme/
+- Dans le mode Design, ajoutez "Texte/html" puis copier/coller le code suivant :
+<script type="text/javascript" src="montheme/js/theme.js?v=2019110501"></script>
+
+- Remplacez "ID DU PLAN" par l'ID de votre page cible.
+-->
+
+
+<!-- MENU = a vous de jouer -->
+<div class="center navbar-fixed-top" id="menu">
+ <div class="col-xs-1 monmenu fix" style="border: 0px; padding: 0.5% 0px 0.5% 0px;"><img class="img-responsive" src="montheme/img/logo.png"></div>
+ <div class="col-xs-1 monmenu">
+     <a onClick="planHeader_id=2; displayPlan();"><img class="img-responsive" src="montheme/img/icon_menu_home.png"> </a>
+ </div>
+ <div class="col-xs-1 monmenu">
+     <a onClick="planHeader_id=3; displayPlan();"><img class="img-responsive" src="montheme/img/icon_menu_temp.png"> </a>
+ </div>
+ <div class="col-xs-1 monmenu">
+     <a onClick="planHeader_id=4; displayPlan();"><img class="img-responsive" src="montheme/img/icon_menu_cam.png"> </a>
+ </div>
+ <div class="col-xs-1 monmenu">
+     <a onClick="planHeader_id=5; displayPlan();"><img class="img-responsive" src="montheme/img/icon_menu_volets.png"> </a>
+ </div>
+ <div class="col-xs-1 monmenu">
+     <a onClick="planHeader_id=6; displayPlan();"><img class="img-responsive" src="montheme/img/icon_menu_light.png"> </a>
+ </div>
+    
+ <div class="col-xs-1 ">
+ </div>
+ <div class="col-xs-4 hidden-xs fix">
+     <div class="clock" id="clock">
+         <div class="date"></div>
+         <div class="time"></div>
+     </div>
+ </div>
+</div>
