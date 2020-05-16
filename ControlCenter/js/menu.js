@@ -24,23 +24,52 @@ $(function() {
         // <--
         );
 
-    $.get("Themes/ControlCenter/menu.html", function(data) {
+    $.get("Themes/ControlCenter/Blank.html", function(data) {
 
         //Remove old menu if displayPlan() used
        $("#div_pageContainer").children("#menu:eq(0)").remove();
 
         //Move the menu in the pageContainer
         $("#div_pageContainer").prepend($(data));
-
+        $("#div_pageContainer").css({'class' : 'menu_top'});
 
         //********************************************//
         //*************GESTION DU MENU ***************//
         //********************************************//
-        //Focus bouton menu suivant le plan actif
-        if (typeof(planHeader_id) != "undefined") {
-            $(".monmenu a[onClick*='planHeader_id=" + planHeader_id + ";']").parent().addClass("selected");
-        }
-        
+
+        $(document).ready(function () {
+            let menuTop = $('.menu_top');
+            menuTop.append('Chargement du menu..');
+    
+            $.getJSON('Themes/ControlCenter/json/Menu.json' + '?v=' + (new Date()).getTime(), function (data) {
+                let buttons = data.buttons.map(function (button) {
+                    return '<div class="col-xs-1 monmenu">'
+                        + '<a id="' + button.link + '" onClick="planHeader_id=' + button.link + '; displayPlan();">'
+                        + '<li class="monmenu">'
+                        + '<img class="img-responsive" src="' + button.icon + '">'
+                        + '</li>'
+                        + '</a></div>';
+                });
+    
+                menuTop.empty();
+    
+                if (buttons.length) {
+                    let listButtons = buttons.join(' ');
+                    let menuList = $('<ul class="monmenu" />').html(listButtons);
+                    menuTop.append(menuList);
+                }
+    
+                let planID = '#' + (location.search.split('plan_id' + '=')[1] || '').split('&')[0];
+                $(planID + ' li').addClass('selected'); //<!-- selected = classe CSS sur élément actif -->
+            })
+
+        });
+
+        // function gotoPlan(planID) {
+        //     planHeader_id = planID;
+        //     displayPlan();
+        // }
+       
 
         fullScreen(false);
 

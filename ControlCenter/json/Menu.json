@@ -10,23 +10,23 @@
         },
         {
             "link": "4",
-            "icon": "Themes/ControlCenter/img/ico/icon_thermometre.png"
+            "icon": "Themes/ControlCenter/img/ico/icon_cam.png"
         },
         {
             "link": "7",
-            "icon": "montheme/img/icon_alarme.png"
+            "icon": "Themes/ControlCenter/img/ico/icon_alarme.png"
         },
         {
             "link": "11",
-            "icon": "montheme/img/icon_cast.png"
+            "icon": "Themes/ControlCenter/img/ico/icon_cast.png"
         },
         {
             "link": "9",
-            "icon": "montheme/img/icon_plante.png"
+            "icon": "Themes/ControlCenter/img/ico/icon_plante.png"
         },
         {
             "link": "10",
-            "icon": "montheme/img/icon_consomation.png"
+            "icon": "Themes/ControlCenter/img/ico/icon_consomation.png"
         }
     ]
 }
