@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"name": "SSH FS - jeedom-dev",
+			"uri": "ssh://jeedom-dev/"
+		}
+	],
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Launch index.html",
+				"type": "firefox",
+				"request": "launch",
+				"reAttach": true,
+				"file": "${workspaceFolder}var/www/index.php"
+			},
+			{
+				"name": "Launch on dev",
+				"type": "firefox",
+				"request": "launch",
+				"reAttach": true,
+				"url": "http://jeedom-dev/index.php",
+				"webRoot": "${workspaceFolder}/var/www"
+			},
+			{
+				"name": "Attach",
+				"type": "firefox",
+				"request": "attach"
+			},
+			{
+				"name": "Launch WebExtension",
+				"type": "firefox",
+				"request": "launch",
+				"reAttach": true,
+				"addonPath": "${workspaceFolder}"
+			}
+		]
+	}
+}

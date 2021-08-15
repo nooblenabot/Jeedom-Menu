@@ -1,0 +1,409 @@
+<!--
+  Menu Neumorphism pour Design Nextdom et Jeedom (@noodom)
+  version avec fichier de configuration JSon 
+  (origine : https://github.com/NextDom/nextdom-theme-design/tree/master/menuNeumorphism/themes via https://codepen.io/wouterXD/pen/PowjvBb)
+  - Copier le contenu du répertoire https://github.com/NextDom/nextdom-theme-design/tree/master/menuNeumorphism/themes sous :
+    - /var/www/html/data/custom/themes pour Nextdom 
+    - ou /var/www/html/Themes/"montheme" pour Jeedom
+  - Dans le mode Design, créer un design pour le menu (dans la configuration de ce design, positionner la largeur à celle de vos pages Design)
+  - Passer en mode Edition dans le design,
+   puis ajouter "Texte/html" et copier/coller ce code HTML
+  - Modifier les paramètres d'affichage du Text/html : Position X=0, Position Y=0, Largeur=largeur de vos pages Design, Hauteur=70
+  - Modifier le contenu du Json pour adapter le contenu à ses besoins
+  - Dans le code HTML ci-dessous, faire les modifications suivantes après la ligne // *** DEBUT DES MODIFICATIONS PAR L'UTILISATEUR *** :
+
+  - /!\ /!\ Attention, à moins d'agir en connaissance de cause, il n'est pas nécessaire de modifier le contenu de ce fichier
+            Pour toute personnalisation du menu, il faut seulement modifier le fichier /json/menu.json /!\ /!\
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Neumorphism Menu</title>
+</head>
+
+<body>
+
+    <div id="cssDiv">
+    </div>
+
+    <nav id="MenuFrame">
+        <!-- Génération dynamique du menu depuis le json de configuration -->
+    </nav>
+
+    <div id="PlanFrame" class="content" style="padding: 0px">
+        <div id="Content_Plan">
+        <!-- Div pour inclure les écrans de design dans une iframe -->
+        </div>
+    </div>
+    
+    <script language="javascript">
+        // Valeurs par défaut
+        //
+        var fullscreen = 'fullscreen=0';
+        var labelFirst = true;
+        var menuHorizontal = true;
+        // forcer rechargement du fichier css
+        let forceRefreshCss = true;
+        // url du fichier de configuration
+        var ThemePath = "Themes/ControlCenter";    // Repertoire du theme
+        var jsonPath = "json/perso.json";         // Emplacement et nom du fichier json du theme en cours
+        var cssPath = "css/perso";               // Emplacement des fiches css (ne pas mettre l'extension. traité selon orientation du menu)
+        // Valeurs par défaut (valeurs utilisées si non précisées dans le json de configuration)
+        // paramétrage des frames
+        var Menu_Height = "70px";               //var defaultMenuHeight = "70px";
+        var defaultFrameTop = "0px";
+        var defaultFrameLeft = "0px";
+        var defaultFrameWidth = "1280px";
+        var defaultFrameHeight = "1000px";
+        // nom de l'image de fond du menu sans focus
+        var inactiveBackgroundCssImage = "Metal";
+        // nom de l'image de fond du menu avec focus
+        var activeBackgroundCssImage = "Metal";
+        // paramétrage des couleurs
+        var borderMenu = "#151515";
+        var backgroundActiveLink = "#202020";
+        var backgroundDefaultLink = "#151515";
+        // parametrage du curseur
+        var CursorColor = "#33b8cc";        //var defaultCursorColor = "#33b8cc";
+        var CursorDefaultColor = "dimgray"; //var defaultCursorDefaultColor = "dimgray";
+        var CursorColorShadow = "blue";
+        var CursorWidth = "1.5rem"          //var defaultCursorWidth = "1.5rem"
+        var CursorHeight = "0.5rem"         //var defaultCursorHeight = "0.5rem"
+
+        // constantes
+        // url de page d'accueil (premier lien du menu récupéré dynamiquement)
+        var homeLink = "";
+        // temps d'attente avant chargement du design du premier bouton
+        var waitForLoadingFrame = 1; // ms
+        // Valeurs par défaut (valeurs utilisées si non précisées dans le json de configuration ci-dessous)
+
+            var menuName = "menuNeumorphism";
+
+
+        // display loading message
+       // let link_id = (location.search.split('link_id' + '=')[1] || '').split('&')[0];
+
+        // Calcul de l'url de destination
+        function getUrlDestination(urlParam) {
+            if (isNaN(urlParam)) {
+                return urlParam;
+            } else {
+                return 'index.php?v=d&p=plan&plan_id=' + urlParam + '&' + fullscreen;
+            }
+        }
+
+        // Affichage du plan idPlan
+        function gotoPlan(idPlan) {
+            let urlDestination = getUrlDestination(idPlan);
+            let frame_Destination = document.getElementById('iframe_a');
+
+            if (isNaN(idPlan)) {
+                // url externe
+                window.open(urlDestination, '_blank');
+            } else {
+                if (frame_destination === null) {
+                    // pas de frame
+                    if (window.location.href.split('?')[1] != urlDestination.split('?')[1]) {
+                        window.location.href = urlDestination;
+                    }
+                } else {
+                    // gestion de la navigation par frame
+                    $('.navul li').removeClass('active');
+                    $('#' + idPlan).addClass('active');
+                    if (frame_destination.src.split('?')[1] != urlDestination.split('?')[1]) {
+                        frame_destination.src = urlDestination;
+                    }
+                }
+            }
+        }
+
+        function gotoQuit() {
+            return 'index.php?v=d&p=dashboard';
+        }
+
+        // chargement de la page de design du bouton de menu sélectionné
+        function loadFrame() {
+            if ((typeof json_theme["parameters"]["iframe"] !== undefined) && (json_theme["parameters"]["iframe"] === "yes")) {
+                gotoPlan(homeLink);
+            }
+        }
+
+        // vérification de la présence d'un fichier (ici pour le fichier json de paramétrage)
+        function checkFile() {
+            // load Json configuration file
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', jsonPath, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // récupération du fichier de configuration OK
+                        let resp = xhr.responseText;
+                        let respJson = JSON.parse(resp);
+                        jsonCallback(respJson);
+                    } 
+                    else {
+                        jsonCallback(null);
+                    }
+                }
+            }
+            xhr.send();
+        }
+
+        function jsonCallback(response) {
+            if (response != null) {
+                // chargement du menu
+                json_theme = response;
+                initData();
+                createTheme();
+                initAfterCreation();
+            } else {
+                // fichier de configuration non trouvé
+                let menu = document.getElementById("MenuFrame");
+                menu.innerHTML = "Attention, problème de chargement du fichier de configuration menu.json. Vérifiez son existence et emplacement";
+            }
+        }
+
+        // Initialisation des données avant la création du menu
+        function initData() {
+            
+            if (typeof (json_theme["parameters"]["cssFilename"]) !== "undefined") {
+                cssFilename = json_theme["parameters"]["cssFilename"];
+            }
+
+            if (typeof (json_theme["parameters"]["inactiveBackgroundCssImage"]) !== "undefined") {
+                inactiveBackgroundCssImage = json_theme["parameters"]["inactiveBackgroundCssImage"];
+            }
+            inactiveBackgroundCssImage = 'url(img/' + 'inactive' +
+                inactiveBackgroundCssImage + 'Background.png)';
+
+            if (typeof (json_theme["parameters"]["activeBackgroundCssImage"]) !== "undefined") {
+                activeBackgroundCssImage = json_theme["parameters"]["activeBackgroundCssImage"];
+            }
+            activeBackgroundCssImage = 'url(img/' + 'active' +
+                activeBackgroundCssImage + 'Background.png)';
+
+            // mise à jour des images de fond du CSS
+            document.documentElement.style.setProperty('--image-path-inactive', inactiveBackgroundCssImage);
+            document.documentElement.style.setProperty('--image-path-active', activeBackgroundCssImage);
+
+            if (typeof (json_theme["parameters"]["cursorColor"]) !== "undefined") {
+                cursorColor = json_theme["parameters"]["cursorColor"];
+            }
+            if (typeof (json_theme["parameters"]["cursorColorShadow"]) !== "undefined") {
+                cursorColorShadow = json_theme["parameters"]["cursorColorShadow"];
+            }
+            if (typeof (json_theme["parameters"]["cursorDefaultColor"]) !== "undefined") {
+                cursorDefaultColor = json_theme["parameters"]["cursorDefaultColor"];
+            }
+            if (typeof (json_theme["parameters"]["cursorWidth"]) !== "undefined") {
+            cursorWidth = json_theme["parameters"]["cursorWidth"];
+            }
+            if (typeof (json_theme["parameters"]["cursorHeight"]) !== "undefined") {
+            cursorHeight = json_theme["parameters"]["cursorHeight"];
+            }
+            if (typeof (json_theme["parameters"]["borderMenu"]) !== "undefined") {
+                borderMenu = json_theme["parameters"]["borderMenu"];
+            }
+            if (typeof (json_theme["parameters"]["Menu_Height"]) !== "undefined") {
+                Menu_Height = json_theme["parameters"]["Menu_Height"];
+            }
+            if (typeof (json_theme["parameters"]["backgroundActiveLink"]) !== "undefined") {
+                backgroundActiveLink = json_theme["parameters"]["backgroundActiveLink"];
+            }
+            if (typeof (json_theme["parameters"]["backgroundDefaultLink"]) !== "undefined") {
+                backgroundDefaultLink = json_theme["parameters"]["backgroundDefaultLink"];
+            }
+        }
+
+        // Création dynamique du menu
+        function createTheme() {
+            // récupération du temps d'attente pour le chargement de la frame au chargement de la page (en ms)
+            if ((typeof json_theme["parameters"]["timeout"] !== undefined) && !isNaN(json_theme["parameters"]["timeout"])) {
+                waitForLoadingFrame = json_theme["parameters"]["timeout"];
+            }
+
+            // creation de la frame Plan
+            let menu_id = document.getElementById('Content_Plan');
+            if ((typeof json_theme["parameters"]["iframe"] !== undefined) && (json_theme["parameters"]["iframe"] === "yes")) {
+                // position de l'iframe
+                let frameTop = defaultFrameTop;
+
+                if (typeof (json_theme["parameters"]["frameTop"]) !== "undefined") {
+                    frameTop = json_theme["parameters"]["frameTop"]
+                }
+
+                let menu_content = document.getElementById('PlanFrame');
+                menu_content.style = "padding: 0px; position: absolute; top: " + frameTop;
+                
+                // definition de la largeur du menu (avec choix horizontal)
+/*                 let menuWidth = document.parameters.menu_width ? document.parameters.menu_width : "1280px";
+                let Menu_Height = document.parameters.menu_height ? document.parameters.menu_height : "80px";
+                menuHorizontal = parseFloat(menuWidth.replace("px", "")) > parseFloat(Menu_Height.replace("px", "")); */
+
+                // iframe pour afficher la page courante
+                let menu_f = document.createElement("div");
+                menu_f.className = "menuf";
+
+                let menu_iframe = document.createElement("iframe");
+                menu_iframe.id = "iframe_a";
+
+                let frameWidth = defaultFrameWidth;
+                if (typeof (json_theme["parameters"]["frameWidth"]) !== "undefined") {
+                    frameWidth = json_theme["parameters"]["frameWidth"];
+                }
+                menu_iframe.width = frameWidth;
+
+                let frameHeight = defaultFrameHeight;
+                if (typeof (json_theme["parameters"]["frameHeight"]) !== "undefined") {
+                    frameHeight = json_theme["parameters"]["frameHeight"];
+                }
+                menu_iframe.height = frameHeight;
+
+                menu_iframe.frameBorder = "0";
+                menu_iframe.scrolling = "no";
+                menu_iframe.src = "";
+
+                menu_f.appendChild(menu_iframe);
+                //menu_id.appendChild(menu_f);
+            }
+            else {
+                // Frame separée ?
+            }
+
+            // construction du menu
+            if (menuHorizontal) {
+              document.documentElement.style.setProperty('--menu-height', Menu_Height);
+            }
+            else {
+              document.documentElement.style.setProperty('--menu-width', menuWidth);
+            }
+
+            let menu = document.getElementById("MenuFrame");
+            let menu_ul = document.createElement("ul");
+            menu_ul.className = "navul";
+            //menu_ul.innerText = json_theme["label"];
+            //menu_ul.setAttribute("onclick", "gotoQuit()");
+            menu.appendChild(menu_ul);
+                
+            for (let i = 0; i < json_theme["buttons"].length; i++) {
+                let menu_item = document.createElement("li");
+                let menu_item_a = document.createElement("a");
+
+                let link = json_theme["buttons"][i]["link"];
+                    if (homeLink === "") {
+                        homeLink = link;
+
+                        // focus sur premier element du menu
+                        menu_item.className = "active";
+                        //menu_item_a.className = "active-text";
+                    }
+
+                //menu_item_a.setAttribute("href", "#");
+                // Infobulle
+                menu_item.setAttribute("data-placement", "bottom");
+                menu_item.setAttribute("title", json_theme["buttons"][i].label);
+                menu_item.setAttribute("onclick", "gotoPlan(" + link + ")");
+
+                let menu_item_i = document.createElement("i");
+                menu_item_i.className = json_theme["buttons"][i].icon;
+                //menu_item_a_i.setAttribute("aria-hidden", "true");
+
+                //menu_item_a.appendChild(menu_item_a_i);
+                menu_item.appendChild(menu_item_a);
+                menu_ul.appendChild(menu_item);
+
+            }
+            menu.appendChild(menu_ul);
+            
+            //
+            //let navSubmenu = $('#navul');
+          /* let buttons = document.buttons.map(function (button) {
+            return '<li data-placement="bottom" id="' + button.link + '" title="' + button.label + '"'
+              + ' onClick="gotoPlan(' + button.link + ')"' + '>'
+              + '<i class="' + button.icon + '"></i>'
+              + '</li>';
+            let listButtons = '<li class="logo">'});
+            if (document.parameters) {
+                listButtons += document.parameters.label ? document.parameters.label : "Noodom";
+                labelFirst = document.parameters.label_first ? (document.parameters.label_first == "1") : true;
+            };
+            listButtons += '</li>';
+
+            if (listButtons.length) {
+                if (labelFirst) {
+                    listButtons += listButtons.join(' ');
+                }
+                else {
+                    listButtons = listButtons.join(' ') + listButtons;
+                }
+            }
+            let menuList = $('<ul class="navul" />').html(listButtons);
+            menu.append(menuList); */
+
+ /*            if (link_id == "") {
+                // set focus on first button 
+            $('.navul li')[1].click()
+            }
+            else {
+                // goto linkId
+                gotoPlan(link_id);
+            }
+            menu.appendChild(menu_ul); */
+
+            // initialisation CSS
+            var cssUrl = cssPath + (menuHorizontal ? "" : "-v") + (labelFirst ? "" : "2") + ".css";
+            let forceRefreshCss = true;
+            let cssLink = document.createElement("link");
+            cssLink.setAttribute("rel", "stylesheet");
+            cssLink.setAttribute("type", "text/css");
+            let hrefAttribute = cssUrl + ((forceRefreshCss == true) ? ('?v=' + Date.now()) : '');
+            cssLink.setAttribute("href", hrefAttribute);
+            //document.getElementById('cssDiv').appendChild(cssLink);
+            document.getElementsByTagName('head')[0].appendChild(cssLink);
+        }
+
+        // Initialisation du menu après sa création
+        function initAfterCreation() {
+            // gestion de la sélection du menu
+            const lis = document.querySelectorAll("#MenuFrame li");
+            const a = document.querySelectorAll("#MenuFrame li a");
+
+            for (let i = 0; i < lis.length; i++) {
+                lis[i].addEventListener("click", function () {
+                    for (let i = 0; i < lis.length; i++) {
+                        lis[i].classList.remove("active");
+                        a[i].classList.remove("active-text");
+                    }
+                    this.classList.add("active");
+                    a[i].classList.add("active-text");
+                });
+            }
+
+            // modification des couleurs du menu
+            document.documentElement.style.setProperty('--cursor-color', cursorColor);
+            //document.documentElement.style.setProperty('--cursor-color-shadow', cursorColorShadow);
+            document.documentElement.style.setProperty('--cursor-default-color', cursorDefaultColor);
+            //document.documentElement.style.setProperty('--border-menu', borderMenu);
+           // document.documentElement.style.setProperty('--background-active-link', backgroundActiveLink);
+           // document.documentElement.style.setProperty('--background-default-link', backgroundDefaultLink);
+           // document.documentElement.style.setProperty('--cursor-width', cursorWidth);
+           // document.documentElement.style.setProperty('--cursor-height', cursorHeight);
+
+            // Frame displayPlan pour la gestion des plans dans une frame séparée
+            //trouver pour reomter valeurs pour double frame
+/*             $("#menuFrame").offsetParent().style().left = json_theme["parameters"]["content_x"] ? defaultFrameLeft
+            $("#menuFrame").offsetParent().style().top = json_theme["parameters"]["content_y"] ? defaultFrameTop
+            $("#menuFrame").offsetParent().style().width = json_theme["parameters"]["content_width"] ? defaultFrameWidth
+            $("#menuFrame").offsetParent().style().height = json_theme["parameters"]["content_height"] ? defaultFrameHeight */
+            // gestion par frame : affichage du premier lien au chargement
+            if (waitForLoadingFrame != 0) {
+                setTimeout(loadFrame, waitForLoadingFrame);
+            }
+        }
+        checkFile();
+    </script>
+</body>
+</html>
