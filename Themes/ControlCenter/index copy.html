@@ -19,6 +19,103 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+<link rel="stylesheet" href="/3rdparty/font-awesome5/css/all.min.css">
+<link rel="stylesheet" href="/core/css/icon/icons.css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Neumorphism Menu</title>
+</head>
+
+<body>
+    <nav id="menu">
+        <!-- Génération dynamique du menu depuis le json de configuration -->
+    </nav>
+    
+    <div id="content" class="content" style="padding: 0px">
+        <div id="i_frame">
+            <!-- Div pour inclure les écrans de design dans une iframe -->
+        </div>
+    </div>
+    
+ <!--   <script language="javascript">
+        // Valeurs par défaut
+        //
+        var fullscreen = 'fullscreen=1';
+        var labelFirst = true;
+        var menuHorizontal = true;
+        // forcer rechargement du fichier css
+        let forceRefreshCss = true;
+        // url du fichier de configuration
+       // var ThemePath = "Themes/ControlCenter";   // Repertoire du theme
+        var jsonPath = "json/perso.json";           // Emplacement et nom du fichier json du theme en cours
+        var cssPath = "css/menu";                   // Emplacement des fichier css (ne pas mettre l'extension. traité selon orientation du menu)
+        // Valeurs par défaut (valeurs utilisées si non précisées dans le json de configuration)
+        // paramétrage des frames
+        var defaultMenuHeight = "70px";             // (facultatif) hauteur du menu
+        var defaultFrameTop = "0px";                // (facultatif) position top de la frame contenant les plans
+        var defaultFrameLeft = "0px";
+        var defaultFrameWidth = "1280px";           // (facultatif) largeur de la frame contenant les plans
+        var defaultFrameHeight = "1000px";          // (facultatif) hauteur de la frame contenant les plans
+        // nom de l'image de fond du menu sans focus
+        var inactiveBackgroundCssImage = "Metal";
+        // nom de l'image de fond du menu avec focus
+        var activeBackgroundCssImage = "Metal";
+        // paramétrage des couleurs
+        var borderMenu = "#151515";
+        var backgroundActiveLink = "#202020";
+        var backgroundDefaultLink = "#151515";
+        // parametrage du curseur
+        var defaultCursorColor = "#33b8cc";         // (facultatif) couleur du curseur sélectionné
+        var defaultCursorDefaultColor = "dimgray";  // (facultatif) couleur des éléments non sélectionnés du menu
+        var CursorColorShadow = "blue";             // (facultatif) couleur des ombres du menu
+        var defaultCursorWidth = "1.5rem";          // (facultatif) largeur des boutons du menu
+        var defaultCursorHeight = "0.5rem";         // (facultatif) hauteur des boutons du menu
+     //   var iframe =  "yes";                        // (facultatif) gestion de la navigation par frame
+
+        // constantes
+        // url de page d'accueil (premier lien du menu récupéré dynamiquement)
+        var homeLink = "";
+        // temps d'attente avant chargement du design du premier bouton
+        var waitForLoadingFrame = 1; // ms // (facultatif) temps d'attente (en ms) avant chargement de la frame au lancement du menu (0 : pas de chargement au lancement)
+        var menuName = "menuNeumorphism";
+
+        // pour chaque item du menu renseigner les différents champs :
+        // - label : libellé du champ à afficher dans le menu
+        // - link : identifiant du design destinataire du lien du menu
+        // - icon : icône fontawesome pour l'affichage du bouton correspondant
+
+        // liste des icônes existants : https://fontawesome.com/icons?d=gallery&m=free
+/*
+        "label": "Nextdom", // Titre du menu
+        {
+            "label": "Accueil",
+            "link": "2",
+            "icon": "fa fa-2x fa-home", // pour modifier la taille d'icône, mettre fa-2x, fa-3x ou fa-4x, etc..
+            }
+*/
+-->
+<!--
+  Menu Neumorphism pour Design Nextdom et Jeedom (@noodom)
+  version avec fichier de configuration JSon 
+  (origine : https://github.com/NextDom/nextdom-theme-design/tree/master/menuNeumorphism/themes via https://codepen.io/wouterXD/pen/PowjvBb)
+  - Copier le contenu du répertoire https://github.com/NextDom/nextdom-theme-design/tree/master/menuNeumorphism/themes sous :
+    - /var/www/html/data/custom/themes pour Nextdom 
+    - ou /var/www/html/Themes/"montheme" pour Jeedom
+  - Dans le mode Design, créer un design pour le menu (dans la configuration de ce design, positionner la largeur à celle de vos pages Design)
+  - Passer en mode Edition dans le design,
+   puis ajouter "Texte/html" et copier/coller ce code HTML
+  - Modifier les paramètres d'affichage du Text/html : Position X=0, Position Y=0, Largeur=largeur de vos pages Design, Hauteur=70
+  - Modifier le contenu du Json pour adapter le contenu à ses besoins
+  - Dans le code HTML ci-dessous, faire les modifications suivantes après la ligne // *** DEBUT DES MODIFICATIONS PAR L'UTILISATEUR *** :
+
+  - /!\ /!\ Attention, à moins d'agir en connaissance de cause, il n'est pas nécessaire de modifier le contenu de ce fichier
+            Pour toute personnalisation du menu, il faut seulement modifier le fichier /json/menu.json /!\ /!\
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Neumorphism Menu</title>
@@ -405,5 +502,151 @@
         }
         checkFile();
     </script>
+
+    <!--
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        function gotoQuit() {
+            return 'index.php?v=d&p=dashboard';
+        }
+
+        // Initialisation des données avant la création du menu
+        function initData() {
+            
+            if (typeof (json_theme["parameters"]["cssFilename"]) !== "undefined") {
+                cssFilename = json_theme["parameters"]["cssFilename"];
+            }
+
+            if (typeof (json_theme["parameters"]["inactiveBackgroundCssImage"]) !== "undefined") {
+                inactiveBackgroundCssImage = json_theme["parameters"]["inactiveBackgroundCssImage"];
+            }
+            inactiveBackgroundCssImage = 'url(img/' + 'inactive' +
+                inactiveBackgroundCssImage + 'Background.png)';
+
+            if (typeof (json_theme["parameters"]["activeBackgroundCssImage"]) !== "undefined") {
+                activeBackgroundCssImage = json_theme["parameters"]["activeBackgroundCssImage"];
+            }
+            activeBackgroundCssImage = 'url(img/' + 'active' +
+                activeBackgroundCssImage + 'Background.png)';
+
+            // mise à jour des images de fond du CSS
+            document.documentElement.style.setProperty('--image-path-inactive', inactiveBackgroundCssImage);
+            document.documentElement.style.setProperty('--image-path-active', activeBackgroundCssImage);
+
+            if (typeof (json_theme["parameters"]["cursorColorShadow"]) !== "undefined") {
+                cursorColorShadow = json_theme["parameters"]["cursorColorShadow"];
+            }
+            if (typeof (json_theme["parameters"]["borderMenu"]) !== "undefined") {
+                borderMenu = json_theme["parameters"]["borderMenu"];
+            }
+            if (typeof (json_theme["parameters"]["backgroundActiveLink"]) !== "undefined") {
+                backgroundActiveLink = json_theme["parameters"]["backgroundActiveLink"];
+            }
+            if (typeof (json_theme["parameters"]["backgroundDefaultLink"]) !== "undefined") {
+                backgroundDefaultLink = json_theme["parameters"]["backgroundDefaultLink"];
+            }
+        }
+
+        // Création dynamique du menu
+        function createTheme() {
+
+            // creation de la frame Plan
+           OK let menu_id = document.getElementById('Content_Plan');
+            if ((typeof json_theme["parameters"]["iframe"] !== undefined) && (json_theme["parameters"]["iframe"] === "yes")) {
+          
+                // definition de la largeur du menu (avec choix horizontal)
+                let menuWidth = document.parameters.menu_width ? document.parameters.menu_width : "1280px";
+                let Menu_Height = document.parameters.menu_height ? document.parameters.menu_height : "80px";
+                menuHorizontal = parseFloat(menuWidth.replace("px", "")) > parseFloat(Menu_Height.replace("px", "")); */
+
+             avant 
+              // iframe pour afficher la page courante
+
+            }
+            else {
+                // Frame separée ?
+            }
+
+            // construction du menu
+            if (menuHorizontal) {
+              document.documentElement.style.setProperty('--menu-height', Menu_Height);
+            }
+            else {
+              document.documentElement.style.setProperty('--menu-width', menuWidth);
+            }
+
+            menu_ul.className = "navul";
+            //menu_ul.innerText = json_theme["label"];
+            //menu_ul.setAttribute("onclick", "gotoQuit()");
+            menu.appendChild(menu_ul);
+                
+            for (let i = 0; i < json_theme["buttons"].length; i++) {
+                let menu_item = document.createElement("li");
+                let menu_item_a = document.createElement("a");
+
+                let link = json_theme["buttons"][i]["link"];
+                    if (homeLink === "") {
+                        homeLink = link;
+
+                        // focus sur premier element du menu
+                        menu_item.className = "active";
+                        //menu_item_a.className = "active-text";
+                    }
+
+                //menu_item_a.setAttribute("href", "#");
+                //menu_item_a_i.setAttribute("aria-hidden", "true");
+
+                //menu_item_a.appendChild(menu_item_a_i);
+                menu_item.appendChild(menu_item_a);
+
+            }
+            menu.appendChild(menu_ul);
+            
+            if (listButtons.length) {
+                if (labelFirst) {
+                    listButtons += listButtons.join(' ');
+                }
+                else {
+                    listButtons = listButtons.join(' ') + listButtons;
+                }
+            }
+            let menuList = $('<ul class="navul" />').html(listButtons);
+            menu.append(menuList); */
+
+        // Initialisation du menu après sa création
+        function initAfterCreation() { == $(document).ready(function () {
+            // gestion de la sélection du menu
+        OK    const lis = document.querySelectorAll("#MenuFrame li");
+            const a = document.querySelectorAll("#MenuFrame li a");
+
+        OK    for (let i = 0; i < lis.length; i++) {
+                lis[i].addEventListener("click", function () {
+                    for (let i = 0; i < lis.length; i++) {
+                        lis[i].classList.remove("active");
+                        a[i].classList.remove("active-text");
+                    }
+                    this.classList.add("active");
+                    a[i].classList.add("active-text");
+                });
+            }
+
+            // modification des couleurs du menu
+            document.documentElement.style.setProperty
+            //document.documentElement.style.setProperty('--cursor-color-shadow', cursorColorShadow);
+           //document.documentElement.style.setProperty('--border-menu', borderMenu);
+           // document.documentElement.style.setProperty('--background-active-link', backgroundActiveLink);
+           // document.documentElement.style.setProperty('--background-default-link', backgroundDefaultLink);
+
+            // Frame displayPlan pour la gestion des plans dans une frame séparée
+            //trouver pour reomter valeurs pour double frame
+/*             $("#menuFrame").offsetParent().style().left = json_theme["parameters"]["content_x"] ? defaultFrameLeft
+            $("#menuFrame").offsetParent().style().top = json_theme["parameters"]["content_y"] ? defaultFrameTop
+            $("#menuFrame").offsetParent().style().width = json_theme["parameters"]["content_width"] ? defaultFrameWidth
+            $("#menuFrame").offsetParent().style().height = json_theme["parameters"]["content_height"] ? defaultFrameHeight */
+            
+        OK    // gestion par frame : affichage du premier lien au chargement
+
+        }
+        checkFile();
+    </script> -->
 </body>
 </html>

@@ -47,7 +47,7 @@ body {
 	position : relative;
   /*  text-align: center;*/
     /*min-height:150px; */
-    
+    color: rgba(236, 22, 22, 0.8);
     background-color: rgba(0, 0, 0, 0.5);
 	display: block;
 	overflow: hidden;
@@ -64,6 +64,8 @@ body {
 	display: inline-block;
 	position: relative;
 	vertical-align: top;
+    color: rgba(236, 22, 22, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 .eqLogic-widget{
 	position: relative;
