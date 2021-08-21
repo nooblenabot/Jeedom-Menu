@@ -2,12 +2,12 @@
     "buttons":[
        {
           "label":"Accueil",
-          "link":"2",
+          "link":"5",
           "icon":"fas fa-home fa-2x"
        },
        {
           "label":"Lumières",
-          "link":"3",
+          "link":"4",
           "icon":"fas fa-lightbulb fa-2x"
        },
        {
@@ -44,14 +44,15 @@
     "parameters":{
           "label": "Noodom",
           "label_first": "1",
+	  "fullscreen" : "fullscreen=1",
           "iframe": "yes",
-          "frameTop": "85px",
-          "frameWidth": "1024px",
-          "frameHeight": "580px",
+          "frameTop": "70px",
+          "frameWidth": "1920px",
+          "frameHeight": "1130px",
       
          "menu_x":"0px",
-         "menu_y":"80px",
-         "menu_width":"1280px",
+         "menu_y":"0px",
+         "menu_width":"1920px",
          "Menu_Height":"80px",
  
          "content_x":"0px",

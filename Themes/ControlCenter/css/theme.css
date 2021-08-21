@@ -1,5 +1,18 @@
+[data-page="plan"] #menu {
+    background: var(--bg-modal-color) !important;
+  }
+
+.navul {
+    box-shadow: 10px 10px 12px 0 rgba(0, 0, 0, 0.1) !important;
+    background: var(--bg-modal-color) !important;
+	border-radius: 0 0 20px 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+  }
+
 [data-page="plan"] .div_displayObject {
-    background: #E7EEF7 !important;
+    background: var(--bg-modal-color) !important;
     font-family: system-ui !important;
     position: relative;
   }
