@@ -6,6 +6,7 @@
 
 <head>
     <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Neumorphism Menu</title>
 </head>
 
@@ -82,6 +83,15 @@
             cssLink.setAttribute('type', 'text/css');
             let persohrefAttribute = cssUrl + ((forceRefreshCss == true) ? ('?v=' + Date.now()) : '');
             cssLink.setAttribute("href", persohrefAttribute);
+            document.getElementsByTagName('head')[0].appendChild(cssLink);
+			
+			            // Recupération theme jeedom en cours pour variables couleurs
+            var cssJth = parent.document.body.attributes[2].value;
+            var cssLink = document.createElement('link');
+            cssLink.setAttribute('rel', 'stylesheet');
+            cssLink.setAttribute('type', 'text/css');
+            let JeedThemeAttribute = "/core/themes/" + cssJth + "/desktop/" + cssJth + ".css" + ((forceRefreshCss == true) ? ('?v=' + Date.now()) : '');
+            cssLink.setAttribute("href", JeedThemeAttribute);
             document.getElementsByTagName('head')[0].appendChild(cssLink);
     
             // récupération de la couleur du curseur

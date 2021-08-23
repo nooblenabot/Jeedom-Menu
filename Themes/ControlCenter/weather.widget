@@ -1,0 +1,63 @@
+<div class="cmd-widget" data-type="info" data-subtype="string" data-template="default" data-cmd_id="#id#" data-cmd_uid="#uid#" data-version="#version#" data-eqLogic_id="#eqLogic_id#">
+
+  <link rel="stylesheet" href="icons/weather-underground/wu-icons-style.css">
+  <link rel="stylesheet" href="icons/weather-icons/weather-icons.css">
+  <link rel="stylesheet" href="icons/weather-icons/weather-icons-wind.css">
+  <link rel="stylesheet" href="css/weather.css">
+
+  <div class="mia-meteo-cadre">
+
+    <!-- 1er cadre : météo actuelle -->
+    <div class="" id="mia-meteo-cadre-now">
+      <span class="" id="mia-meteo-now-icone"></span>
+      <span class="" id="mia-meteo-now-temperature"></span>
+      <span class="" id="mia-meteo-now-temps"></span>
+    </div>
+
+    <!-- 2nd cadre : détail météo actuelle -->
+    <div class="mia-meteo-cadre-detail">
+      <div class="mia-meteo-detail-grid">
+        <span class="mia-meteo-detail-texte" id="mia-meteo-lever-soleil"></span>
+        <span class="mia-meteo-detail-texte" id="mia-meteo-coucher-soleil"></span>
+        <span class="mia-meteo-detail-texte" id="mia-meteo-now-temperature-mini"><i class="wi wi-thermometer-exterior"></i></span>
+        <span class="mia-meteo-detail-texte" id="mia-meteo-now-temperature-maxi"><i class="wi wi-thermometer"></i></span>
+        <span class="mia-meteo-detail-texte" id="mia-meteo-now-vent-icone"></span>
+        <span class="mia-meteo-detail-texte" id="mia-meteo-now-vent"></span>
+        <span class="mia-meteo-detail-texte"><i class="mia-meteo-detail-icone-pluie wi wi-raindrops"></i></span>
+        <span class="mia-meteo-detail-texte" id="mia-meteo-now-pluie"></span>
+      </div>
+    </div>
+
+    <!-- 3ème cadre : météo à venir -->
+    <div class="mia-meteo-cadre-prevision-grid">
+      <div>
+        <span class="mia-meteo-prevision-jour" id="mia-meteo-jour1-nom"></span>
+        <span class="" id="mia-meteo-jour1-icone"></span>
+        <span class="mia-meteo-prevision-temperature" id="mia-meteo-jour1-temperature"></span>
+      </div>
+      <div>
+        <span class="mia-meteo-prevision-jour" id="mia-meteo-jour2-nom"></span>
+        <span class="" id="mia-meteo-jour2-icone"></span>
+        <span class="mia-meteo-prevision-temperature" id="mia-meteo-jour2-temperature"></span>
+      </div>
+      <div>
+        <span class="mia-meteo-prevision-jour" id="mia-meteo-jour3-nom"></span>
+        <span class="" id="mia-meteo-jour3-icone"></span>
+        <span class="mia-meteo-prevision-temperature" id="mia-meteo-jour3-temperature"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/weather.js"></script>
+  <script>
+    jeedom.cmd.update['#id#'] = function(_options){
+      
+      mia_meteo(_options.display_value);
+      
+    }
+
+    jeedom.cmd.update['#id#']({display_value:'#state#'});
+  </script>
+
+</div>
